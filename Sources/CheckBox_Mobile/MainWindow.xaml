@@ -1,0 +1,122 @@
+﻿<Window x:Class="CheckBox_Mobile.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CheckBox_Mobile"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="350" Width="300">
+    <Window.Resources>
+        <Style TargetType="{x:Type CheckBox}">
+            <Setter Property="Margin" Value="3"/>
+        </Style>
+        <ControlTemplate x:Key="Animation_MobileCheckBox" TargetType="{x:Type CheckBox}">
+            <BulletDecorator>
+                <BulletDecorator.Bullet>
+                    <Grid>
+                        <Rectangle x:Name="Border" Grid.Column="0" 
+                            Width="26" Height="14" RadiusX="6" RadiusY="6"
+                            Stroke="Gray" StrokeThickness="2"
+                            Fill="Transparent"/>
+                        <Rectangle x:Name="Circle" Grid.Column="0"
+                            Width="8" Height="8" RadiusX="5" RadiusY="5"
+                            Margin="3 0" Fill="Gray">
+                        </Rectangle>
+                    </Grid>
+                </BulletDecorator.Bullet>
+                <ContentPresenter Margin="2 0 0 0"/>
+            </BulletDecorator>
+            <ControlTemplate.Triggers>
+                <EventTrigger RoutedEvent="MouseEnter">
+                    <BeginStoryboard Name="Hover">
+                        <Storyboard>
+                            <ColorAnimation Storyboard.TargetName="Border" Storyboard.TargetProperty="(Rectangle.Fill).(SolidColorBrush.Color)" Duration="0:0:0.500" To="#cfebfd"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="MouseLeave">
+                    <StopStoryboard BeginStoryboardName="Hover"/>
+                </EventTrigger>
+                <Trigger Property="IsChecked" Value="False">
+                    <Setter TargetName="Border" Property="Stroke" Value="Gray"/>
+                    <Trigger.EnterActions>
+                        <BeginStoryboard Name="MoveLeft">
+                            <Storyboard>
+                                <ThicknessAnimation Storyboard.TargetName="Circle" Storyboard.TargetProperty="Margin" Duration="0:0:0.150" To="0 0 7 0"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.EnterActions>
+                    <Trigger.ExitActions>
+                        <StopStoryboard BeginStoryboardName="MoveLeft"/>
+                    </Trigger.ExitActions>
+                </Trigger>
+                <Trigger Property="IsChecked" Value="True">
+                    <Setter TargetName="Circle" Property="Fill" Value="Green"/>
+                    <Setter TargetName="Border" Property="Stroke" Value="Green"/>
+                    <Trigger.EnterActions>
+                        <BeginStoryboard Name="MoveRight">
+                            <Storyboard>
+                                <ThicknessAnimation Storyboard.TargetName="Circle" Storyboard.TargetProperty="Margin" Duration="0:0:0.300" To="7 0 0 0"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.EnterActions>
+                    <Trigger.ExitActions>
+                        <StopStoryboard BeginStoryboardName="MoveRight"/>
+                    </Trigger.ExitActions>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+        <ControlTemplate x:Key="VisualStates_MobileCheckBox" TargetType="{x:Type CheckBox}">
+            <BulletDecorator>
+                <BulletDecorator.Bullet>
+                    <Grid>
+                        <Rectangle x:Name="Border" Grid.Column="0" 
+                            Width="26" Height="14" RadiusX="6" RadiusY="6"
+                            Stroke="Gray" StrokeThickness="2"
+                            Fill="Transparent"/>
+                        <Rectangle x:Name="Circle" Grid.Column="0"
+                            Width="8" Height="8" RadiusX="5" RadiusY="5"
+                            Margin="3 0" Fill="Gray">
+                        </Rectangle>
+                    </Grid>
+                </BulletDecorator.Bullet>
+                <ContentPresenter Margin="2 0 0 0"/>
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroup Name="Common">
+                        <VisualState Name="Normal">
+                            <Storyboard>
+                                <ColorAnimation Storyboard.TargetName="Border" Storyboard.TargetProperty="(Rectangle.Fill).(SolidColorBrush.Color)" Duration="0" To="Transparent"/>
+                            </Storyboard>
+                        </VisualState>
+                        <VisualState Name="MouseOver">
+                            <Storyboard>
+                                <ColorAnimation Storyboard.TargetName="Border" Storyboard.TargetProperty="(Rectangle.Fill).(SolidColorBrush.Color)" Duration="0" To="#cfebfd"/>
+                            </Storyboard>
+                        </VisualState>
+                    </VisualStateGroup>
+                    <VisualStateGroup Name="CheckedStates">
+                        <VisualState Name="Checked">
+                            <Storyboard>
+                                <ColorAnimation Storyboard.TargetName="Border" Storyboard.TargetProperty="(Rectangle.Stroke).(SolidColorBrush.Color)" Duration="0" To="Green"/>
+                                <ColorAnimation Storyboard.TargetName="Circle" Storyboard.TargetProperty="(Rectangle.Fill).(SolidColorBrush.Color)" Duration="0" To="Green"/>
+                                <ThicknessAnimation Storyboard.TargetName="Circle" Storyboard.TargetProperty="Margin" Duration="0:0:0.300" To="7 0 0 0"/>
+                            </Storyboard>
+                        </VisualState>
+                        <VisualState Name="Unchecked">
+                            <Storyboard>
+                                <ColorAnimation Storyboard.TargetName="Border" Storyboard.TargetProperty="(Rectangle.Stroke).(SolidColorBrush.Color)" Duration="0" To="Gray"/>
+                                <ColorAnimation Storyboard.TargetName="Circle" Storyboard.TargetProperty="(Rectangle.Fill).(SolidColorBrush.Color)" Duration="0" To="Gray"/>
+                                <ThicknessAnimation Storyboard.TargetName="Circle" Storyboard.TargetProperty="Margin" Duration="0:0:0.300" To="0 0 7 0"/>
+                            </Storyboard>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateManager.VisualStateGroups>
+            </BulletDecorator>
+        </ControlTemplate>
+    </Window.Resources>
+    <StackPanel HorizontalAlignment="Center">
+        <CheckBox Content="Стандартный CheckBox"/>
+        <CheckBox Content="Аля Mobile CheckBox 1" Template="{StaticResource VisualStates_MobileCheckBox}"/>
+        <CheckBox Content="Аля Mobile CheckBox 2" Template="{StaticResource VisualStates_MobileCheckBox}" IsChecked="True"/>
+    </StackPanel>
+</Window>
